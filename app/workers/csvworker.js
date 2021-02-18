@@ -186,6 +186,9 @@ const insert = async () => {
 
     } catch (error) {
         mongoose.connection.close();
+        if(!fs.existsSync(path.resolve(__dirname,"../../workerErrorLog"))){
+            fs.mkdirSync(path.resolve(__dirname,"../../workerErrorLog"))
+        }
         let errWrite = fs.createWriteStream(path.resolve(__dirname,"../../workerErrorLog",`${workerData.name}_error.txt`))//path.resolve(__dirname,"../../csvwriteerror"),`${workerData.name}_error.txt`)  
         // Read and disply the file data on console  
         errWrite.write(error.toString());
