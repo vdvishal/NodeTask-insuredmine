@@ -15,6 +15,6 @@ const restartServer = () => {
             process.exit();
         }
 
-        pm2.restart("0",err => {});
+        pm2.restart("app",err => {});
     })
 }
