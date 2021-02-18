@@ -2,7 +2,9 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 const Agent =  new Schema({
-  agentName: String
+  csvId: String,
+  agentName: String,
+  
 })
 
 

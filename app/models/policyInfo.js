@@ -2,6 +2,7 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 const policyInfo =  new Schema({
+  csvId: String,
   policyNumber: String,
   startDate: String,
   endDate: String,
@@ -13,7 +14,7 @@ const policyInfo =  new Schema({
   },
   userId:{
     type:mongoose.Types.ObjectId
-  }
+  },
 })
 
 

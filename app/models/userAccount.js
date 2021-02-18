@@ -2,7 +2,9 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 const UserAccount =  new Schema({
-  accountName: String
+  csvId: String,
+  accountName: String,
+
 })
 
 

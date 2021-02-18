@@ -114,25 +114,25 @@ const insert = async () => {
 
         lists[0].agentName.forEach(agent => {
             let _id = new ObjectID()
-            agentArr.push({agentName:agent,_id})
+            agentArr.push({agentName:agent,_id,csvId:workerData.name})
             agentId[agent] = _id;
         });
 
         lists[0].userAccount.forEach(account => {
             let _id = new ObjectID()
-            accountArr.push({accountName:account,_id:_id})
+            accountArr.push({accountName:account,_id:_id,csvId:workerData.name})
             accountId[account] = _id;
         });
 
         lists[0].companyName.forEach(company => {
             let _id = new ObjectID()
-            companyArr.push({companyName:company,_id})
+            companyArr.push({companyName:company,_id,csvId:workerData.name})
             companyId[company] = _id;
         });
 
         lists[0].categoryName.forEach(category => {
             let _id = new ObjectID()
-            categoryArr.push({categoryName:category,_id})
+            categoryArr.push({categoryName:category,_id,csvId:workerData.name})
             categoryId[category] = _id;
         });
 
@@ -153,7 +153,8 @@ const insert = async () => {
                 agentId:agentId[user.agent],
                 companyId:companyId[user.companyName],
                 accountId:accountId[user.userAccount],
-                categoryId:categoryId[user.categoryName],                
+                categoryId:categoryId[user.categoryName],
+                csvId:workerData.name                
             })
 
             policyArr.push({
@@ -163,8 +164,11 @@ const insert = async () => {
                 policyNumber:user.policyNumber,
                 startDate:user.policyStartDate,
                 endDate:user.policyEndDate,
+                csvId:workerData.name
             })
         });
+
+        console.log()
 
         Promise.all([
             await Agent.insertMany(agentArr).then(),
@@ -182,6 +186,9 @@ const insert = async () => {
 
     } catch (error) {
         mongoose.connection.close();
+        let errWrite = fs.createWriteStream(path.resolve(__dirname,"../../workerErrorLog",`${workerData.name}_error.txt`))//path.resolve(__dirname,"../../csvwriteerror"),`${workerData.name}_error.txt`)  
+        // Read and disply the file data on console  
+        errWrite.write(error.toString());
         console.log(error);
     }
     
@@ -198,8 +205,8 @@ const insertToTempCollection = () => new Promise((resolve,reject) => {
     let bulkInsert = [];
     fs.createReadStream(csvPath)
     .pipe(csv.parse({ headers: true }))
-    .on('error', error => console.error(error))
-    .on('data', row => bulkInsert.push(row))
+    .on('error', error => {reject(error)})
+    .on('data', row => bulkInsert.push({...row,csvId:workerData.name}))
     .on('end', end => {
         Temp.insertMany(bulkInsert, (err,response) => {
             if(err){

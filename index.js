@@ -44,8 +44,9 @@ const server = http.Server(app);
 mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.on('open', function (err) {
     if (err) {
-        logger.error(err, 'mongoose connection open handler', 10)
+        console.log('mongoose connection open handler', err)
     } else {
+        console.log('mongoose connection open');
         server.listen(3000);
         server.on('error', onError);
         server.on('listening', onListening);

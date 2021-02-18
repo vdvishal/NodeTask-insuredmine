@@ -29,7 +29,8 @@ const TempCollection = new Schema({
     "primary" :String,
     "Applicant ID" :String,
     "agency_id" :String,
-    "hasActive ClientPolicy" :String
+    "hasActive ClientPolicy" :String,
+    csvId: String
 },{strict:false})
 
 

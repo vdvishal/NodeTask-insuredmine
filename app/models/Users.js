@@ -2,6 +2,7 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 const User =  new Schema({
+    csvId: String,
     firstName:String,
     name:String, 
     Dob:String,

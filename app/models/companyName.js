@@ -2,7 +2,8 @@ const mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 const companyName =  new Schema({
-  companyName: String
+  csvId: String,
+  companyName: String,
 })
 
 
