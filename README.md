@@ -6,3 +6,6 @@
 4. Other modules:-
    a. multer, b. fast-csv, c. os-utils, d. morgan
 5. npm start to start the server
+6. Task 2 for section 2:
+   day format: "DD/MM/YYYY"
+   time format: "HH:mm:ss"
