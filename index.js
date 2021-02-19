@@ -5,10 +5,11 @@ const path = require('path');
 const fs = require("fs");
 const morgan = require('morgan')
 const bodyParser = require("body-parser")
+const childProcess = require('child_process');
+const { Worker } = require('worker_threads');
 
 const models = './app/models';
 const routes = './app/routes';
-const { Worker } = require('worker_threads');
 new Worker(path.resolve(__dirname,"./app/workers/cpuMonit.js"));
 
 const app = express(); 
@@ -36,9 +37,7 @@ app.all('*', function (req, res, next) {
    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
    next();
 });
-
-
-
+ 
 const server = http.Server(app);
 
 mongoose.connect("mongodb://localhost:27017/userDB", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -65,7 +64,7 @@ function onListening() {
  
 }
 
+childId = childProcess.fork(path.resolve(__dirname,"./app/child_process/timerDataEntry.js"));
 
-
-
+ 
 module.exports = app;
